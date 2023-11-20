@@ -7,8 +7,7 @@ const {MONODB} = require('./config')
 
 const server = new ApolloServer({
     typeDefs,
-    resolvers,
-    context: ({req}) => ({req})
+    resolvers
 })
 
 mongoose.connect(MONODB)

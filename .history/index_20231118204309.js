@@ -1,14 +1,27 @@
 const {ApolloServer} = require("apollo-server");
+const gql = require("graphql-tag");
 const mongoose = require("mongoose");
 
 const typeDefs = require('./graphql/typeDefs')
-const resolvers = require('./graphql/resolvers')
+const Post = require('./models/Post')
 const {MONODB} = require('./config')
+
+const resolvers = {
+    Query: {
+        async getPosts(){
+            try {
+                const posts = await Post.find();
+                return posts;
+            } catch (error) {
+                throw new Error(error)
+            }
+        }
+    }
+}
 
 const server = new ApolloServer({
     typeDefs,
-    resolvers,
-    context: ({req}) => ({req})
+    resolvers
 })
 
 mongoose.connect(MONODB)
